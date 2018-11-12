@@ -5,6 +5,7 @@
 // Dependencies
 const http = require('http');
 const url = require('url');
+const StringDecoder = require('string_decoder').StringDecoder;
 
 var server = http.createServer(function(req, res) {
 
@@ -24,13 +25,25 @@ var server = http.createServer(function(req, res) {
     // get the headers
     var headers = req.headers;
 
-    // send the response
-    res.end("hello World\n");
+    // get the payload, if any
+    var decoder = new StringDecoder('utf-8');
+    var buffer = '';
 
-    // log the request path
-    console.log(`Request received on ${trimmedPath} with method: ${method}`);
-    console.log('Query string parameters: %j', queryStringObject);    
-    console.log("Headers: %j", headers);
+    req.on('data', (data) => {
+        buffer += decoder.write(data);
+    });
+
+    req.on('end', () => {
+        buffer += decoder.end();
+
+        // send the response
+        res.end("hello World\n");
+
+        console.log(`Request received on ${trimmedPath} with method: ${method}`);
+        console.log('Query string parameters: %j', queryStringObject);    
+        console.log("Headers: %j", headers);
+        console.log(`Payload: ${buffer}`);
+    });
 })
 
 // start the server
