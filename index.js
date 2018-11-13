@@ -107,4 +107,5 @@ var router = {
     'ping': handlers.ping,
     'users': handlers.userHandler,
     'tokens': handlers.tokenHandler,
+    'checks': handlers.checksHandler,
 }
