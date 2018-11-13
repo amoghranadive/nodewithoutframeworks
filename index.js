@@ -8,7 +8,9 @@ const https = require('https');
 const url = require('url');
 const StringDecoder = require('string_decoder').StringDecoder;
 const fs = require('fs');
-const config = require('./config');
+const config = require('./lib/config');
+const handlers = require('./lib/handlers');
+const helpers = require('./lib/helpers');
 
 // Instantiate the HTTP server
 var httpServer = http.createServer(function(req, res) {
@@ -73,13 +75,13 @@ var unifiedServer = function(req, res) {
            queryStringObject,
            method,
            headers,
-           'payload': buffer
+           'payload': helpers.parseJSONToObject(buffer),
        };
 
-       console.log(`Request received on ${trimmedPath} with method: ${method}`);
-       console.log('Query string parameters: %j', queryStringObject);    
-       console.log("Headers: %j", headers);
-       console.log(`Payload: ${buffer}`);
+       // console.log(`Request received on ${trimmedPath} with method: ${method}`);
+       // console.log('Query string parameters: %j', queryStringObject);    
+       // console.log("Headers: %j", headers);
+       // console.log(`Payload: ${buffer}`);
 
        // route the request to the handler
        chosenHandler(data, function sendResponse(statusCode, payload) {
@@ -100,20 +102,8 @@ var unifiedServer = function(req, res) {
    });
 };
 
-// define handlers
-var handlers = {};
-
-// ping handler
-handlers.ping = function pingHandler(data, callback) {
-    callback(200);
-}
-
-// default handler
-handlers.notFound = function defaultHandler(data, callback) {
-    callback(404);
-};
-
 // Define a request router
 var router = {
-    'ping': handlers.ping
+    'ping': handlers.ping,
+    'users': handlers.users,
 }
