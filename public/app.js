@@ -37,12 +37,12 @@
     // form the http request as a JSON type
     var xhr = new XMLHttpRequest();
     xhr.open(method, requestURL, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("Content-type", "application/json");
 
     // for each header sent, add it to the request
     for (let headerKey in headers) {
         if (headers.hasOwnProperty(headerKey)) {
-            xhr.setRequestHeader(headerKey, header[headerKey]);
+            xhr.setRequestHeader(headerKey, headers[headerKey]);
         }
     }
 
@@ -63,8 +63,7 @@
             if (callback) {
                 
                 try {
-                    
-                    var parsedResponse = JSON.parse(responseReturned);
+                    var parsedResponse = JSON.parse(responseReturned);                   
                     callback(statusCode, parsedResponse);
 
                 } catch(err) {
