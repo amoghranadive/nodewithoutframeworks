@@ -2,8 +2,7 @@
  * Test runner
  */
 
-var helpers = require('../lib/helpers');
-var assert = require('assert');
+ var unitTests = require('./unit');
  
  // Application logic for the test runner
 var testRunner = (function() {
@@ -12,33 +11,15 @@ var testRunner = (function() {
         runTests,
     };
 
-    var tests = {
-        'unit': {}
-    };
-
-    tests.unit['helpers.getANumber should return 1'] = function(done) {
-
-        var val = helpers.getANumber();
-        assert.equal(val, 1);
-        done();
-    };
-
-    tests.unit['helpers.getANumber should return 2'] = function(done) {
-
-        var val = helpers.getANumber();
-        assert.equal(val, 2);
-        done();
-    };
-
     function runTests() {
         var errors = [];
         var success = 0;
         var limit = countTests();
         var counter = 0;
 
-        for (let key in tests) {
-            if (tests.hasOwnProperty(key)) {
-                let subTests = tests[key];
+        for (let key in unitTests) {
+            if (unitTests.hasOwnProperty(key)) {
+                let subTests = unitTests[key];
                 for (let testName in subTests) {
                     if (subTests.hasOwnProperty(testName)) {
                         try {
@@ -72,9 +53,9 @@ var testRunner = (function() {
 
     function countTests() {
         var counter = 0;
-        for (let key in tests) {
-            if (tests.hasOwnProperty(key)) {
-                let subTests = tests[key];
+        for (let key in unitTests) {
+            if (unitTests.hasOwnProperty(key)) {
+                let subTests = unitTests[key];
                 for (let testName in subTests) {
                     if (subTests.hasOwnProperty(testName)) {
                         counter++;
