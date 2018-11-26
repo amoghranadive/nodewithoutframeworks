@@ -2,10 +2,14 @@
  * Test runner
  */
 
- var unitTests = require('./unit');
+process.env.NODE_ENV = "TESTING";
  
  // Application logic for the test runner
 var testRunner = (function() {
+
+    var tests = {};
+    tests.unitTests = require('./unit').tests;
+    tests.apiTests = require('./api').tests;
      
     var publicAPI = {
         runTests,
@@ -17,9 +21,9 @@ var testRunner = (function() {
         var limit = countTests();
         var counter = 0;
 
-        for (let key in unitTests) {
-            if (unitTests.hasOwnProperty(key)) {
-                let subTests = unitTests[key];
+        for (let key in tests) {
+            if (tests.hasOwnProperty(key)) {
+                let subTests = tests[key];
                 for (let testName in subTests) {
                     if (subTests.hasOwnProperty(testName)) {
                         try {
@@ -53,9 +57,9 @@ var testRunner = (function() {
 
     function countTests() {
         var counter = 0;
-        for (let key in unitTests) {
-            if (unitTests.hasOwnProperty(key)) {
-                let subTests = unitTests[key];
+        for (let key in tests) {
+            if (tests.hasOwnProperty(key)) {
+                let subTests = tests[key];
                 for (let testName in subTests) {
                     if (subTests.hasOwnProperty(testName)) {
                         counter++;
@@ -95,6 +99,8 @@ var testRunner = (function() {
 
         console.log("");
         console.log("--------END TEST REPORT--------");
+
+        process.exit(0);
     }
 
     return publicAPI;

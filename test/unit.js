@@ -13,12 +13,12 @@ var unit = (function() {
         done();
     };
 
-    tests['helpers.getANumber should return 2'] = function(done) {
+    /*tests['helpers.getANumber should return 2'] = function(done) {
 
         var val = helpers.getANumber();
         assert.equal(val, 2);
         done();
-    };
+    };*/
 
     var publicAPI = {
         tests,
